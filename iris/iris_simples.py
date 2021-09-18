@@ -13,11 +13,14 @@ labelencoder = LabelEncoder()
 classes =labelencoder.fit_transform(classes)
 classe_dummy = np_utils.to_categorical(classes)
 previsores_treinamento,previsores_teste,classes_treinamento,classes_teste = train_test_split(previsores,classe_dummy,test_size=0.25)
-
+print(len(previsores_treinamento))
 classificador = Sequential()
 classificador.add(Dense(units=4,activation="relu",input_dim=4))
 classificador.add(Dense(units=4,activation='relu'))
 classificador.add(Dense(units=3,activation="softmax"))
 classificador.compile(optimizer="adam",loss='categorical_crossentropy',
                       metrics=['categorical_accuracy'])
+
 classificador.fit(previsores_treinamento, classes_treinamento, batch_size=10,epochs=1000)
+resultado = classificador.evaluate(previsores_teste,classes_teste)
+print(resultado)
